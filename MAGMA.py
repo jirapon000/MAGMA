@@ -1348,7 +1348,8 @@ def main():
     global LOSS_FUNCTION   # declare before any use of LOSS_FUNCTION in this scope
 
     parser = argparse.ArgumentParser(description="MAGMA: Adaptive PHQ-8 Assessment")
-    parser.add_argument("--id",   type=str, required=False,  help="Session identifier (e.g. P001, John, session_1) — used only to label output files")
+    parser.add_argument("--id",   type=str, required=False, default="session_1",
+                    help="Session identifier (e.g. P001, John, session_1) — used only to label output files. Defaults to 'session_1' if not provided.")
     parser.add_argument("--loss", type=str, default=LOSS_FUNCTION,
                         choices=["fisher", "pmi", "entropy"],
                         help="Information-gain loss function (default: fisher)")
