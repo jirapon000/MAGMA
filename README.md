@@ -102,5 +102,27 @@ Then open **http://127.0.0.1:8000** in your browser. Choose a strategy (Fisher /
 - No `--id` or `--loss` CLI flags are used here; the loss function is chosen via the UI and sent to the server per session.
 - Each browser session is tracked in memory with a randomly generated session ID (no output files are written to disk automatically like the CLI version).
 
+### Architecture
+MAGMA has one shared "brain" (`MAGMA.py`) with all the psychometric logic (GRM, θ estimation, item selection, DS-CoT scoring). It can be run two different ways:
+
+#### 1. CLI version (`MAGMA.py`)
+
+Runs as a step-by-step flow using LangGraph:
+
+```
+Ask question → Get answer → Update theta → Pick next question → repeat → Final scoring
+```
+
+You answer questions directly in the terminal, and results are saved to files at the end.
+
+#### 2. Web demo version (`app.py` + `index.html`)
+
+Same brain, different wrapper. Instead of LangGraph, it uses a simple Flask web server:
+
+- You open a browser and chat with the agent through a chat UI.
+- Each time you send an answer, the server scores it, updates theta, and sends back the next question (or the final results).
+
+The logic is the same either way, just delivered through the terminal vs. a browser.
+
 
 
