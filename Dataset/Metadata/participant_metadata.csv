@@ -1,0 +1,35 @@
+Sim_Session,Gender,Age,Edu_Level,Employ_Status,Marital,Country,Primary_Lang,Mental_Health_History, Diagonsis
+sim_session1,Male,25,Masters,Student,In a Relationship,Thailand,English,No,
+sim_session2,Female,26,Bachelors,Employed full time,In a Relationship,Thailand,Thai,No,
+sim_session3,Female,24,Bachelors,Employed part time,Single,Thailand,English,No,
+sim_session4,Female,24,Bachelors,Employed full time,In a Relationship,Thailand,Thai,No,
+sim_session5,Male,21,Bachelors,Student,In a Relationship,Thailand,Thai,No,
+sim_session6,Male,28,Masters,Student,In a Relationship,Thailand,Burmese,No,
+sim_session7,Female,25,Masters,Employed full time,Single,Thailand,English,No,
+sim_session9,Male,30,Masters,Employed full time, Single,Thailand,Thai,No,
+sim_session10,Female,30,Masters,Employed full time,Single,Philippines,Filipino,No,
+sim_session12,Female,26,Diploma,Student,Single,USA,Filipino,Yes, Depression
+sim_session18,Female,27,Bachelors,Student,Single,Thailand,Nepali,No,
+sim_session19,Female,30,Masters,Employed part time,Married,Myanmar,Burmese,No
+sim_session20,Female,28,Bachelors,Employed full time,Single,Philippines,ILOCO,No
+sim_session24,Female,25,Masters,Employed part time,Single,Thailand,Thai,No
+sim_session25,Male,25,Masters,Employed full time,In a relationship,Thailand,English,No
+sim_session26,Male,31,Doctoral,Employed full time,Single,Philippines,Filipino,No
+sim_session27,Male,31,Masters,Employed full time,Prefer not to say,Thailand,Thai,No
+sim_session28,Female,24,Bachelors,Employed full time,Single,Philippines,Filipino,No
+sim_session29,Prefer not to say,39,Masters,Employed full time,Single,Thailand,Thai,Prefer not to say
+sim_session31,Female,25,Bachelors,Self employed,In a relationship,Thailand,Thai,No
+sim_session32,Male,26,Masters,Employed part time,Single,Thailand,Thai,No
+sim_session34,Female,24,Masters,Student,Single,Spain,English,No
+sim_session35,Male,22,Bachelors,Student,Single,Thailand,Thai,No
+sim_session36,Male,25,Masters,Student,Single,Thailand,English,No
+sim_session37,Female,23,Bachelors,Employed full time,In a relationship,South Korea,Korean,No
+sim_session38,Female,22,Bachelors,Student,Single,Thailand,Thai,No
+sim_session40,Female,27,Masters,Employed full time,Single,Thailand,Thai,No
+sim_session42,Female,24	Masters,Student,In a relationship,Thailand,Thai,No
+sim_session43,Male,28,Bachelors,Employed part time,In a relationship,Thailand,Thai,Yes,Anxiety
+sim_session44,Female,24,Bachelors,Employed full time,Single,Singapore,Thai,No
+sim_session45,Female,25,Bachelors,Employed full time,Single,Thailand,Thai,No
+sim_session46,Female,25,Bachelors,Employed full time,Prefer not to say,Thailand,English,No
+sim_session47,Male,24,Bachelors,Employed full time,Single,Thailand,English,No
+sim_session48,Male,29,Bachelors,Employed full time,In a relationship,Thailand,Thai,No
