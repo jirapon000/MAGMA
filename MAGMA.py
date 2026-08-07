@@ -11,6 +11,8 @@
 #  No simulated client — designed for live human participants.
 # ==============================================================================
 #  python MAGMA.py --id P001 --loss fisher (pmi or entropy)
+#  --id is optional (defaults to "session_1" if omitted):
+#  python MAGMA.py --loss fisher (pmi or entropy)
 #
 #  FLOW (per turn)
 #  ─────────────────────────────────────────────────────────────────
