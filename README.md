@@ -71,5 +71,36 @@ At the end of the interview, all 8 items are scored, regardless of whether they 
 
 Each item also gets a natural-language clinical explanation (LLM-generated) and a data-sufficiency rating (`HIGH` / `MEDIUM` / `LOW`) based on how peaked its ICC probability distribution is.
 
+### Usage
+
+MAGMA can be run two ways: as a terminal CLI interview, or as a local web demo.
+
+#### Option 1: CLI (terminal interview)
+
+```bash
+python MAGMA.py --loss fisher                    # --id defaults to "session_1"
+python MAGMA.py --id P001 --loss fisher          # or specify your own session id
+```
+
+| Flag | Description |
+|---|---|
+| `--id` | *(optional)* Session identifier used to label output files (e.g. `P001`). Defaults to `session_1` if not provided. |
+| `--loss` | Item-selection strategy: `fisher` (default), `pmi`, or `entropy` |
+
+> **Note:** If you run multiple sessions without specifying `--id`, they will all default to `session_1` and overwrite each other's output files. Pass a unique `--id` for each participant/session to keep results separate.
+
+The interview runs directly in the terminal: MAGMA prints each question, and you type your answer at the `💬 Participant:` prompt.
+
+#### Option 2: Web demo (Flask + browser UI)
+
+```bash
+python app.py
+```
+
+Then open **http://127.0.0.1:8000** in your browser. Choose a strategy (Fisher / PMI / Entropy) on the landing screen and click **Start Simulation** to begin chatting with the agent.
+
+- No `--id` or `--loss` CLI flags are used here; the loss function is chosen via the UI and sent to the server per session.
+- Each browser session is tracked in memory with a randomly generated session ID (no output files are written to disk automatically like the CLI version).
+
 
 
