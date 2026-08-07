@@ -4,6 +4,8 @@ MAGMA is a single-agent, adaptive clinical interview system for the PHQ-8 depres
 
 An LLM (GPT-4o) handles the conversational phrasing of each question and the clinical scoring of each free-text answer. The navigation, meaning which question to ask next and when to stop, is driven entirely by psychometrics rather than the LLM.
 
+---
+
 ### Why adaptive?
 The standard PHQ-8 always asks the same 8 questions in the same order. MAGMA instead:
 
@@ -12,6 +14,8 @@ The standard PHQ-8 always asks the same 8 questions in the same order. MAGMA ins
 3) Asks the highest-value item next.
 4) Stops early once θ is estimated precisely enough (or, in PMI mode, once information gain stalls).
 5) Scores every item, including ones never asked — skipped items are predicted from the final θ via the item's fitted Item Characteristic Curve (ICC), so the output is always a full 8-item PHQ-8 profile.
+   
+---
 
 ### How it works
 1. Parameter estimation (from real data, at startup)
@@ -71,8 +75,9 @@ At the end of the interview, all 8 items are scored, regardless of whether they 
 
 Each item also gets a natural-language clinical explanation (LLM-generated) and a data-sufficiency rating (`HIGH` / `MEDIUM` / `LOW`) based on how peaked its ICC probability distribution is.
 
-### Usage
+---
 
+### Usage
 MAGMA can be run two ways: as a terminal CLI interview, or as a local web demo.
 
 #### Option 1: CLI (terminal interview)
@@ -101,6 +106,8 @@ Then open **http://127.0.0.1:8000** in your browser. Choose a strategy (Fisher /
 
 - No `--id` or `--loss` CLI flags are used here; the loss function is chosen via the UI and sent to the server per session.
 - Each browser session is tracked in memory with a randomly generated session ID (no output files are written to disk automatically like the CLI version).
+  
+---
 
 ### Architecture
 MAGMA has one shared "brain" (`MAGMA.py`) with all the psychometric logic (GRM, θ estimation, item selection, DS-CoT scoring). It can be run two different ways:
