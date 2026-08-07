@@ -26,8 +26,7 @@ From the same dataset it also computes:
 - Marginal entropy per item, used to weight the entropy-based selection strategy.
 
 > **Note:** DAIC-WOZ is distributed under a data use agreement and is not included in
-> this repository. See the [DAIC-WOZ page](https://dcapswoz.ict.usc.edu/) to request access,
-> then point `DATASET_PATH` at your local copy of the PHQ-8 label CSV.
+> this repository. See the [DAIC-WOZ page](https://dcapswoz.ict.usc.edu/) to request access.
 
 2. Theta estimation
 Given the ordinal scores (0–3) collected so far, θ is estimated two ways:
