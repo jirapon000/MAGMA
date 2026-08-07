@@ -52,11 +52,11 @@ A LangChain prompt (`question_template`) takes the selected clinical domain, the
 5. Answer scoring: 5-stage Diathesis-Stress Chain-of-Thought (DS-CoT)
 Each free-text answer is scored 0–3 by walking GPT-4o through five explicit clinical reasoning stages:
 
-1. **Emotion analysis**: affective/somatic state, intensity, polarity, source, trajectory.
-2. **Contextual grounding**: external stressors, internal framing, stressor magnitude.
-3. **Attribution resolution**: `PRESENT` / `PRESENT-SITUATIONAL` / `NOT PRESENT`, based on the diathesis-stress model (is the distress proportionate to a named stressor, or does it exceed or predate it?).
-4. **Reasoning analysis**: contributing or protective factors (social, biological, psychological, functional).
-5. **Calibrated severity estimation**: final 0–3 PHQ-8 score, judged on functional impact rather than on how much or how emotionally the participant spoke.
+- **Emotion analysis**: affective/somatic state, intensity, polarity, source, trajectory.
+- **Contextual grounding**: external stressors, internal framing, stressor magnitude.
+- **Attribution resolution**: `PRESENT` / `PRESENT-SITUATIONAL` / `NOT PRESENT`, based on the diathesis-stress model (is the distress proportionate to a named stressor, or does it exceed or predate it?).
+- **Reasoning analysis**: contributing or protective factors (social, biological, psychological, functional).
+- **Calibrated severity estimation**: final 0–3 PHQ-8 score, judged on functional impact rather than on how much or how emotionally the participant spoke.
 
 This extends the 4-stage CoT scoring approach of Teng et al. (2025) with an added contextual-grounding stage and three-way (rather than binary) symptom attribution.
 
