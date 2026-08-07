@@ -48,7 +48,7 @@ Selectable via `--loss` / `LOSS_FUNCTION`:
 | `pmi` | Picks the item most co-associated with symptoms already endorsed | `pmi_gain()` |
 | `entropy` | Picks the item expected to most reduce posterior uncertainty in θ, scaled by the item's population variability | `entropy_gain()` |
 
-Stopping rules differ by strategy. Fisher and Entropy stop once the posterior SD of θ is small enough; PMI stops once the best available gain stalls (`PMI_STALL_THRESHOLD`).
+Stopping rules differ by strategy. Fisher and Entropy stop once the posterior SD of θ drops to 0.3 or below; PMI stops once the best available gain improves by less than 0.10 (`PMI_STALL_THRESHOLD`).
 
 4. Conversational question generation
 A LangChain prompt (`question_template`) takes the selected clinical domain, the current θ, evidence so far, and conversation history, and asks GPT-4o to phrase one natural, empathetic, single-sentence question. The prompt avoids clinical-sounding phrasing and always weaves in the 2-week PHQ-8 timeframe naturally.
@@ -131,5 +131,38 @@ Same brain, different wrapper. Instead of LangGraph, it uses a simple Flask web 
 
 The logic is the same either way, just delivered through the terminal vs. a browser.
 
+---
+
+### Output
+
+**Note:** File output only happens in the CLI version (`MAGMA.py`). The web demo (`app.py`) keeps everything in memory and does not save files.
+
+Each CLI run creates a folder `MAGMA/<loss_function>/` containing:
+
+| Folder | Contents |
+|---|---|
+| `Evidence/` | Per-item supporting/contradicting/neutral evidence extracted during the interview |
+| `Transcript/` | Full turn-by-turn transcript (`.jsonl`) with θ at each turn |
+| `Agent_Thoughts/` | Navigation log: θ, posterior SD, items asked, decision at each turn |
+| `Scores/` | Final PHQ-8 scores per item, total score, severity category, θ, items asked, loss function used |
+| `Scoring_Explanations/` | ICC probabilities, entropy, sufficiency, and LLM-generated clinical explanation per item |
+| `Analysis_Metrics/` | Per-turn analytics: DS-CoT stage outputs, θ, posterior SD, PMI gains, agent vs. parsed scores |
+| `Symptoms/` | Per-item θ-at-time-of-asking summary |
+| `GRM_Gains/` | Per-turn ranking of candidate items and their information-gain scores |
+
+Files are named using `--id`, e.g. `Scores_P001.csv`, `Transcript_P001.jsonl`.
+
+---
+
+### Severity bands (total PHQ-8 score, 0–24)
+
+| Score | Category |
+|---|---|
+| 0 | No Depression |
+| 1–4 | Minimal Depression |
+| 5–9 | Mild Depression |
+| 10–14 | Moderate Depression |
+| 15–19 | Moderately Severe Depression |
+| 20–24 | Severe Depression |
 
 
