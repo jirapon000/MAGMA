@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MAGMA · Adaptive PHQ-8</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f4efe6; --paper-2:#ece4d6; --ink:#1f2a2a; --ink-soft:#4a5654;
+    --line:#d8cdb9; --teal:#0f6e63; --teal-deep:#0a4f47; --amber:#b9742a;
+    --shadow:0 1px 0 rgba(255,255,255,.6),0 18px 40px -24px rgba(31,42,42,.55);
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;margin:0;}
+  body{font-family:"IBM Plex Sans",sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;
+    background:radial-gradient(120% 90% at 85% -10%,#fbf7ef 0%,rgba(251,247,239,0) 55%),
+      radial-gradient(100% 80% at 0% 110%,#e9dfcd 0%,rgba(233,223,205,0) 50%),var(--paper);}
+  .wrap{max-width:1180px;margin:0 auto;min-height:100%;display:grid;
+    grid-template-columns:1fr 300px;gap:34px;padding:30px 30px 120px;}
+  @media(max-width:880px){.wrap{grid-template-columns:1fr;}.rail{order:-1;}}
+  header.top{grid-column:1/-1;display:flex;align-items:baseline;justify-content:space-between;
+    border-bottom:1px solid var(--line);padding-bottom:16px;}
+  .brand{display:flex;align-items:baseline;gap:14px;}
+  .brand h1{font-family:"Fraunces",serif;font-weight:600;font-size:34px;margin:0;letter-spacing:-.5px;}
+  .brand .sub{font-size:12.5px;color:var(--ink-soft);letter-spacing:.14em;text-transform:uppercase;}
+  .crumb{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-soft);}
+  .chat-col{display:flex;flex-direction:column;height:calc(100vh - 200px);min-height:420px;}
+  .stage{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--teal-deep);margin:4px 0 18px;}
+  .stage-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:4px 0 18px;}
+  .stage-row .stage{margin:0;}
+  .stage-actions{display:flex;gap:8px;}
+  .ctrl-btn{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--ink-soft);background:#fffdf8;border:1px solid var(--line);border-radius:99px;
+    padding:6px 14px;cursor:pointer;transition:.18s;}
+  .ctrl-btn:hover{border-color:var(--teal);color:var(--teal-deep);}
+  .ctrl-btn.primary{background:var(--teal-deep);color:var(--paper);border-color:var(--teal-deep);}
+  .ctrl-btn.primary:hover{background:var(--teal);color:#fff;}
+  .stream{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:18px;padding:4px 2px;}
+  .msg{max-width:78%;line-height:1.5;font-size:15.5px;animation:rise .5s cubic-bezier(.2,.8,.2,1) both;}
+  @keyframes rise{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+  .msg .who{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px;}
+  .msg.agent{align-self:flex-start;}
+  .msg.agent .bubble{background:#fffdf8;border:1px solid var(--line);border-left:3px solid var(--teal);
+    padding:14px 18px;border-radius:4px 16px 16px 16px;box-shadow:var(--shadow);}
+  .msg.user{align-self:flex-end;text-align:right;}
+  .msg.user .bubble{background:var(--teal-deep);color:#f4efe6;padding:13px 18px;
+    border-radius:16px 4px 16px 16px;box-shadow:var(--shadow);}
+  .typing .bubble{display:inline-flex;gap:5px;align-items:center;}
+  .typing .dot{width:6px;height:6px;border-radius:50%;background:var(--teal);opacity:.4;animation:blink 1.1s infinite;}
+  .typing .dot:nth-child(2){animation-delay:.2s;} .typing .dot:nth-child(3){animation-delay:.4s;}
+  @keyframes blink{0%,100%{opacity:.25;transform:translateY(0);}50%{opacity:1;transform:translateY(-2px);}}
+  .composer{margin-top:18px;border-top:1px solid var(--line);padding-top:16px;display:flex;gap:12px;align-items:flex-end;}
+  .composer textarea{flex:1;resize:none;font-family:inherit;font-size:15px;color:var(--ink);
+    background:#fffdf8;border:1px solid var(--line);border-radius:12px;padding:13px 16px;
+    min-height:52px;max-height:160px;line-height:1.45;outline:none;transition:border .2s,box-shadow .2s;}
+  .composer textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(15,110,99,.12);}
+  .composer textarea:disabled{opacity:.5;}
+  .send{font-weight:600;font-size:14px;color:#f4efe6;background:var(--teal);border:none;border-radius:12px;
+    padding:14px 22px;cursor:pointer;transition:transform .15s,background .2s;white-space:nowrap;}
+  .send:hover{background:var(--teal-deep);} .send:active{transform:translateY(1px);}
+  .send:disabled{background:#9bb3af;cursor:not-allowed;}
+  .hint{font-size:12px;color:var(--ink-soft);margin-top:8px;font-style:italic;}
+  .rail{display:flex;flex-direction:column;gap:18px;}
+  .card{background:#fffdf8;border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow);}
+  .card h3{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--ink-soft);margin:0 0 14px;font-weight:500;}
+  .theta-val{font-family:"Fraunces",serif;font-size:46px;font-weight:600;line-height:1;letter-spacing:-1px;}
+  .theta-band{font-size:12.5px;color:var(--ink-soft);margin-top:4px;}
+  .gauge{height:7px;background:var(--paper-2);border-radius:99px;margin-top:14px;position:relative;overflow:hidden;}
+  .gauge .fill{position:absolute;top:0;bottom:0;left:50%;width:2px;background:var(--teal);
+    transition:left .6s cubic-bezier(.2,.8,.2,1);box-shadow:0 0 0 3px rgba(15,110,99,.15);}
+  .gauge-scale{display:flex;justify-content:space-between;font-family:"IBM Plex Mono",monospace;
+    font-size:9px;color:var(--ink-soft);margin-top:5px;}
+  .stat-row{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--line);}
+  .stat-row:last-child{border-bottom:none;}
+  .stat-row .k{font-size:12.5px;color:var(--ink-soft);}
+  .stat-row .v{font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:500;}
+  .badge{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.1em;
+    text-transform:uppercase;padding:3px 9px;border-radius:99px;background:var(--teal);color:#f4efe6;}
+  .gate{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:48px 20px;gap:18px;min-height:50vh;}
+  .gate p{max-width:520px;color:var(--ink-soft);line-height:1.6;font-size:15.5px;margin:0;}
+  .gate .lead{font-family:"Fraunces",serif;font-size:26px;color:var(--ink);font-weight:500;font-style:italic;}
+  .loss-pick{display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;justify-content:center;}
+  .loss-pick label{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+    border:1px solid var(--line);background:#fffdf8;padding:9px 16px;border-radius:99px;cursor:pointer;transition:.2s;}
+  .loss-pick input{display:none;}
+  .loss-pick label.on{background:var(--teal-deep);color:var(--paper);border-color:var(--teal-deep);}
+  .fab{position:fixed;right:28px;bottom:26px;z-index:5;font-weight:600;font-size:15px;color:#f4efe6;
+    background:var(--teal);border:none;padding:16px 26px;border-radius:99px;cursor:pointer;
+    box-shadow:0 14px 30px -10px rgba(10,79,71,.7);transition:transform .15s,background .2s;
+    display:inline-flex;align-items:center;gap:10px;}
+  .fab:hover{background:var(--teal-deep);transform:translateY(-2px);} .fab:active{transform:translateY(0);}
+  .fab .pulse{width:9px;height:9px;border-radius:50%;background:#9fe6da;
+    box-shadow:0 0 0 0 rgba(159,230,218,.7);animation:pulse 1.8s infinite;}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(159,230,218,.6);}70%{box-shadow:0 0 0 9px rgba(159,230,218,0);}100%{box-shadow:0 0 0 0 rgba(159,230,218,0);}}
+  .results{grid-column:1/-1;animation:rise .6s both;}
+  .res-head{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;}
+  @media(max-width:620px){.res-head{grid-template-columns:1fr;}}
+  .res-tile{background:#fffdf8;border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:var(--shadow);}
+  .res-tile .lab{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);}
+  .res-tile .big{font-family:"Fraunces",serif;font-size:38px;font-weight:600;line-height:1.1;margin-top:8px;letter-spacing:-.5px;}
+  .res-tile .big.sev{font-size:25px;}
+  .items-title{font-family:"Fraunces",serif;font-size:20px;font-style:italic;margin:6px 0 14px;}
+  .legend{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-soft);margin-bottom:14px;display:flex;gap:18px;flex-wrap:wrap;}
+  .legend .k{display:inline-flex;align-items:center;gap:6px;}
+  .dot{width:11px;height:11px;border-radius:50%;display:inline-block;}
+  .dot.asked{background:var(--teal);} .dot.skip{background:transparent;border:1.5px solid var(--amber);}
+  .item-row{display:grid;grid-template-columns:18px 1fr auto auto;gap:14px;align-items:center;
+    padding:13px 16px;border:1px solid var(--line);border-radius:10px;background:#fffdf8;margin-bottom:8px;}
+  .item-row .name{font-size:15px;} .item-row .name small{display:block;color:var(--ink-soft);font-size:12px;margin-top:2px;}
+  .item-row .scr{font-family:"Fraunces",serif;font-size:24px;font-weight:600;}
+  .item-row .tag{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+    padding:3px 8px;border-radius:99px;border:1px solid var(--line);color:var(--ink-soft);}
+  .item-row.is-skip{background:linear-gradient(0deg,rgba(185,116,42,.05),rgba(185,116,42,.05)),#fffdf8;}
+  .err{grid-column:1/-1;background:#fbeae9;border:1px solid #e3b9b6;color:#8a2f2c;padding:14px 18px;border-radius:12px;font-size:14px;margin-top:14px;}
+  .hidden{display:none !important;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><h1>MAGMA</h1><span class="sub">Adaptive&nbsp;PHQ-8&nbsp;·&nbsp;Demo</span></div>
+    <div class="crumb" id="crumb" style="display:none">idle</div>
+  </header>
+
+  <section class="gate" id="gate">
+    <div class="lead">Adaptive depression screening, one question at a time.</div>
+    <p>Take a few minutes to check in with yourself. Just answer honestly, in your own words, 
+       no forms, no scores to worry about. It's a calm space to reflect on how you've been feeling.</p>
+    <div class="loss-pick" id="lossPick">
+      <label class="on"><input type="radio" name="loss" value="fisher" checked>Fisher</label>
+      <label><input type="radio" name="loss" value="pmi">PMI</label>
+      <label><input type="radio" name="loss" value="entropy">Entropy</label>
+    </div>
+    <p style="font-size:13px;margin-top:4px;">Choose a strategy, then press <b>Start Simulation</b>.</p>
+  </section>
+
+  <section class="chat-col hidden" id="chatCol">
+    <div class="stage-row">
+      <span class="stage" id="stageLabel">Screening</span>
+      <div class="stage-actions">
+        <button class="ctrl-btn" id="homeBtn">Home</button>
+        <button class="ctrl-btn primary" id="restartBtn">Restart</button>
+      </div>
+    </div>
+    <div class="stream" id="stream"></div>
+    <div class="composer">
+      <textarea id="input" placeholder="Type your answer…" rows="1" disabled></textarea>
+      <button class="send" id="sendBtn" disabled>Send</button>
+    </div>
+    <div class="hint">Press Enter to send · Shift+Enter for a new line</div>
+  </section>
+
+  <section class="results hidden" id="results"></section>
+
+  <aside class="rail hidden" id="rail">
+    <div class="card">
+      <h3>Latent severity · θ</h3>
+      <div class="theta-val" id="thetaVal">0.00</div>
+      <div class="theta-band" id="thetaBand">prior</div>
+      <div class="gauge"><div class="fill" id="gaugeFill"></div></div>
+      <div class="gauge-scale"><span>−4</span><span>0</span><span>+4</span></div>
+    </div>
+    <div class="card">
+      <h3>Progress</h3>
+      <div class="stat-row"><span class="k">Items asked</span><span class="v" id="askedV">0 / 8</span></div>
+      <div class="stat-row"><span class="k">Strategy</span><span class="v"><span class="badge" id="lossV">fisher</span></span></div>
+      <div class="stat-row"><span class="k">Stage</span><span class="v" id="stageV">screening</span></div>
+    </div>
+  </aside>
+</div>
+
+<button class="fab" id="startFab"><span class="pulse"></span> Start Simulation</button>
+
+<script>
+const API = "";
+let sessionId = null, busy = false;
+const el = id => document.getElementById(id);
+const stream = el("stream");
+
+function band(t){ if(t<-1)return"minimal"; if(t<0)return"mild"; if(t<1)return"moderate"; return"severe"; }
+function setRail(theta, asked, stage){
+  if(theta!=null){ el("thetaVal").textContent=theta.toFixed(2); el("thetaBand").textContent=band(theta);
+    el("gaugeFill").style.left=Math.max(0,Math.min(100,((theta+4)/8)*100))+"%"; }
+  if(asked!=null) el("askedV").textContent=asked+" / 8";
+  if(stage) el("stageV").textContent=stage;
+}
+function addMsg(role,text){
+  const m=document.createElement("div");
+  m.className="msg "+(role==="user"?"user":"agent");
+  m.innerHTML=`<div class="who">${role==="user"?"You":"Assessment Agent"}</div><div class="bubble"></div>`;
+  m.querySelector(".bubble").textContent=text; stream.appendChild(m);
+  m.scrollIntoView({behavior:"smooth",block:"end"});
+}
+function showTyping(){
+  const t=document.createElement("div"); t.className="msg agent typing"; t.id="typing";
+  t.innerHTML=`<div class="who">Assessment Agent</div><div class="bubble"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>`;
+  stream.appendChild(t); t.scrollIntoView({behavior:"smooth",block:"end"});
+}
+function hideTyping(){ const t=el("typing"); if(t)t.remove(); }
+function lock(s){ busy=s; el("input").disabled=s; el("sendBtn").disabled=s; if(!s)el("input").focus(); }
+
+el("lossPick").addEventListener("click",e=>{
+  const lbl=e.target.closest("label"); if(!lbl)return;
+  el("lossPick").querySelectorAll("label").forEach(l=>l.classList.remove("on"));
+  lbl.classList.add("on"); lbl.querySelector("input").checked=true;
+});
+
+async function start(){
+  const loss=document.querySelector('input[name="loss"]:checked').value;
+  el("startFab").classList.add("hidden"); el("gate").classList.add("hidden");
+  el("chatCol").classList.remove("hidden"); el("rail").classList.remove("hidden");
+  el("crumb").textContent="session: starting…"; el("lossV").textContent=loss;
+  showTyping();
+  try{
+    const r=await fetch(API+"/api/start",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({loss})});
+    const d=await r.json(); hideTyping();
+    if(d.error){ showError(d.error); return; }
+    sessionId=d.session_id; el("crumb").textContent="session: "+sessionId.slice(0,8);
+    el("stageLabel").textContent="Screening"; setRail(d.theta,0,"screening");
+    addMsg("agent",d.question); lock(false);
+  }catch(err){ hideTyping(); showError(err.message||err); }
+}
+
+async function send(){
+  if(busy)return;
+  const text=el("input").value.trim(); if(!text)return;
+  addMsg("user",text); el("input").value=""; el("input").style.height="auto";
+  lock(true); showTyping();
+  try{
+    const r=await fetch(API+"/api/answer",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({session_id:sessionId,text})});
+    const d=await r.json(); hideTyping();
+    if(d.error){ showError(d.error); lock(false); return; }
+    if(d.type==="question"){
+      setRail(d.theta,d.asked,d.item_id==="SCREENING"?"screening":"phq-8");
+      el("stageLabel").textContent=d.item_id==="SCREENING"?"Screening":("PHQ-8 · "+d.label);
+      addMsg("agent",d.question); lock(false);
+    }else if(d.type==="complete"){ renderResults(d); }
+  }catch(err){ hideTyping(); showError(err.message||err); lock(false); }
+}
+
+function renderResults(d){
+  addMsg("agent","That's it for the assessment — thank you for your time.");
+  setRail(d.final_theta,d.asked_count,"complete");
+  el("stageLabel").textContent="Interview complete";
+  el("crumb").textContent="session: "+(sessionId||"").slice(0,8)+" · done";
+  lock(true); el("input").placeholder="Interview complete.";
+  const rows=d.items.map(it=>{
+    const cls=it.was_asked?"":"is-skip", dot=it.was_asked?"asked":"skip";
+    return `<div class="item-row ${cls}"><span class="dot ${dot}"></span>
+      <div class="name">${it.label}<small>${it.domain}</small></div>
+      <span class="tag">${it.was_asked?"asked":"skipped"}</span>
+      <span class="scr">${it.score}<span style="font-size:13px;color:var(--ink-soft)">/3</span></span></div>`;
+  }).join("");
+  el("results").innerHTML=`
+    <div class="res-head">
+      <div class="res-tile"><div class="lab">Total PHQ-8</div><div class="big">${d.total_score}<span style="font-size:18px;color:var(--ink-soft)"> /24</span></div></div>
+      <div class="res-tile"><div class="lab">Severity class</div><div class="big sev">${d.severity}</div></div>
+      <div class="res-tile"><div class="lab">Final θ</div><div class="big">${d.final_theta.toFixed(2)}</div></div>
+    </div>
+    <div class="items-title">Item-by-item outcome</div>
+    <div class="legend">
+      <span class="k"><span class="dot asked"></span> asked &amp; scored by LLM</span>
+      <span class="k"><span class="dot skip"></span> skipped · predicted from θ (ICC)</span>
+    </div>${rows}
+    <div style="margin-top:8px;font-size:12.5px;color:var(--ink-soft);">Strategy: <b>${d.loss}</b> · ${d.asked_count} asked · ${d.skipped_count} predicted.</div>`;
+  el("results").classList.remove("hidden");
+  el("results").scrollIntoView({behavior:"smooth",block:"start"});
+  const fab=el("startFab"); fab.innerHTML=`<span class="pulse"></span> Run again`; fab.classList.remove("hidden");
+}
+
+function showError(msg){
+  const e=document.createElement("div"); e.className="err";
+  e.textContent="Something went wrong: "+msg+". Check the server terminal, OPENAI_API_KEY, and the Dataset path.";
+  el("results").classList.remove("hidden"); el("results").appendChild(e);
+}
+function resetAll(){
+  sessionId=null; stream.innerHTML=""; el("results").innerHTML=""; el("results").classList.add("hidden");
+  el("input").placeholder="Type your answer…"; setRail(0,0,"screening"); start();
+}
+function goHome(){
+  sessionId=null; busy=false;
+  stream.innerHTML=""; el("results").innerHTML=""; el("results").classList.add("hidden");
+  el("chatCol").classList.add("hidden"); el("rail").classList.add("hidden");
+  el("gate").classList.remove("hidden");
+  el("input").placeholder="Type your answer…"; el("input").disabled=true; el("sendBtn").disabled=true;
+  setRail(0,0,"screening");
+  const fab=el("startFab"); fab.innerHTML=`<span class="pulse"></span> Start Simulation`; fab.classList.remove("hidden");
+  el("crumb").textContent="idle";
+}
+el("startFab").addEventListener("click",()=> sessionId?resetAll():start());
+el("sendBtn").addEventListener("click",send);
+el("homeBtn").addEventListener("click", goHome);
+el("restartBtn").addEventListener("click", resetAll);
+el("input").addEventListener("keydown",e=>{ if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send();} });
+el("input").addEventListener("input",e=>{ e.target.style.height="auto"; e.target.style.height=Math.min(e.target.scrollHeight,160)+"px"; });
+</script>
+</body>
+</html>
