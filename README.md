@@ -129,6 +129,29 @@ Same brain, different wrapper. Instead of LangGraph, it uses a simple Flask web 
 The logic is the same either way, just delivered through the terminal vs. a browser.
 
 ---
+### Dataset
+
+MAGMA involves two distinct datasets:
+### 1. Training data
+
+Used to fit the GRM item parameters at startup. See [How it works → Parameter estimation](#1-parameter-estimation-from-real-data-at-startup) for details on DAIC-WOZ and how fitting works.
+
+### 2. Participant experiment data (collected via MAGMA)
+
+Running MAGMA with real participants produces a dataset containing:
+
+| Field | Description |
+|---|---|
+| `Gender`, `Age`, `Education Level`, `Employment Status`, `Marital`, `Country`, `Primary Language` | Participant demographics collected alongside the interview |
+| `Mental Health History`, `Diagnosis` | Self-reported mental health background |
+| PHQ-8 item scores (0–3 per item, total 0–24) | Output of MAGMA's adaptive scoring (see [Output](#output)) |
+| Free-text answers | The participant's actual sentence-form responses to each question, as recorded in the transcript |
+
+This dataset is used for [describe your actual use here — e.g. validating adaptive scoring against self-report, analyzing item-selection efficiency, etc.].
+
+> Note: this dataset is separate from the DAIC-WOZ training data mentioned above and is not currently included in this repository. [Add a note on access/privacy/IRB status if applicable.]
+
+---
 
 ### Output
 
