@@ -1,4 +1,4 @@
-Sim_Session,Gender,Age,Edu_Level,Employ_Status,Marital,Country,Primary_Lang,Mental_Health_History, Diagonsis
+Sim_Session,Gender,Age,Edu_Level,Employ_Status,Marital,Country,Primary_Lang,Mental_Health_History, Diagnosis
 sim_session1,Male,25,Masters,Student,In a Relationship,Thailand,English,No,
 sim_session2,Female,26,Bachelors,Employed full time,In a Relationship,Thailand,Thai,No,
 sim_session3,Female,24,Bachelors,Employed part time,Single,Thailand,English,No,
