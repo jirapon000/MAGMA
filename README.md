@@ -142,12 +142,12 @@ Running MAGMA with real participants produces a dataset containing:
 
 | Field | Description |
 |---|---|
-| `Gender`, `Age`, `Education Level`, `Employment Status`, `Marital`, `Country`, `Primary Language` | Participant demographics collected alongside the interview |
-| `Mental Health History`, `Diagnosis` | Self-reported mental health background |
-| PHQ-8 item scores (0–3 per item, total 0–24) | Output of MAGMA's adaptive scoring (see [Output](#output)) |
+| `Gender`, `Age`, `Edu_Level`, `Employ_Status`, `Marital`, `Country`, `Primary_Lang` | Participant demographics collected alongside the interview |
+| `Mental_Health_History`, `Diagnosis` | Self-reported mental health background |
+| PHQ-8 item scores (0–3 per item, total 0–24) | Ground-truth score for each item, reviewed and validated by a licensed psychologist |
 | Free-text answers | The participant's actual sentence-form responses to each question, as recorded in the transcript |
 
-This dataset is used for [describe your actual use here — e.g. validating adaptive scoring against self-report, analyzing item-selection efficiency, etc.].
+This dataset is used as a validation set: comparing MAGMA's automated PHQ-8 scores against the psychologist-verified ground-truth scores for the same participants.
 
 > Note: this dataset is separate from the DAIC-WOZ training data mentioned above and is not currently included in this repository. [Add a note on access/privacy/IRB status if applicable.]
 
