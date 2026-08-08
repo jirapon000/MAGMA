@@ -103,6 +103,17 @@ Then open **http://127.0.0.1:8000** in your browser. Choose a strategy (Fisher /
 
 - No `--id` or `--loss` CLI flags are used here; the loss function is chosen via the UI and sent to the server per session.
 - Each browser session is tracked in memory with a randomly generated session ID (no output files are written to disk automatically like the CLI version).
+
+#### Requirements (both options)
+
+- Python 3.9+ (adjust if you know your actual tested version)
+- `OPENAI_API_KEY` set in a `.env` file (loaded via `python-dotenv`)
+- A ground-truth PHQ-8 dataset at `Dataset/PHQ8 Mapping/GrouthTruth_PHQ8_Labels.csv`, containing the 8 PHQ-8 columns:
+  `PHQ_8NoInterest, PHQ_8Depressed, PHQ_8Sleep, PHQ_8Tired, PHQ_8Appetite, PHQ_8Failure, PHQ_8Concentrating, PHQ_8Moving`
+- Python packages:
+```bash
+  pip install numpy pandas torch openai girth python-dotenv langchain-openai langchain-core langgraph flask
+```
   
 ---
 
