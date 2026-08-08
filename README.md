@@ -1,6 +1,6 @@
 # Model-Based Adaptive Guided Mental-Assessment for Natural Language Depression Screening (MAGMA)
 
-MAGMA is a single-agent, adaptive clinical interview system for the PHQ-8 depression screener. Instead of asking every participant all 8 fixed items, it uses Item Response Theory (IRT); specifically a Graded Response Model (GRM), to estimate a participant's latent depression severity (theta, θ) in real time and adaptively choose the next most informative question to ask.
+MAGMA is a single-agent, adaptive clinical interview system for the PHQ-8 depression screener(pre-assessment). Instead of asking every participant all 8 fixed items, it uses Item Response Theory (IRT); specifically a Graded Response Model (GRM), to estimate a participant's latent depression severity (theta, θ) in real time and adaptively choose the next most informative question to ask.
 
 An LLM (GPT-4o) handles the conversational phrasing of each question and the clinical scoring of each free-text answer. The navigation, meaning which question to ask next and when to stop, is driven entirely by psychometrics rather than the LLM.
 
@@ -187,7 +187,7 @@ Files are named using `--id`, e.g. `Scores_P001.csv`, `Transcript_P001.jsonl`.
 
 #### Severity bands (total PHQ-8 score, 0–24)
 
-The PHQ-8 total score is the sum of all 8 item scores (each scored 0–3), producing a range from 0 to 24. This total is mapped to a severity category using the standard PHQ-8 classification scheme (Kroenke et al., 2009), the same convention used in psychological research and clinical practice to classify a person's depression severity based on their score:
+The PHQ-8 total score is the sum of all 8 item scores (each scored 0–3), producing a range from 0 to 24. This total is mapped to a severity category using the standard PHQ-8 classification scheme (Kroenke et al., 2009), the same convention used in psychological research and clinical practice to pre-assess a person's depression severity based on their score:
 
 | Score | Category |
 |---|---|
