@@ -185,7 +185,9 @@ Files are named using `--id`, e.g. `Scores_P001.csv`, `Transcript_P001.jsonl`.
 
 ---
 
-### Severity bands (total PHQ-8 score, 0–24)
+#### Severity bands (total PHQ-8 score, 0–24)
+
+The PHQ-8 total score is the sum of all 8 item scores (each scored 0–3), producing a range from 0 to 24. This total is mapped to a severity category using the standard PHQ-8 classification scheme (Kroenke et al., 2009), the same convention used in psychological research and clinical practice to classify a person's depression severity based on their score:
 
 | Score | Category |
 |---|---|
@@ -195,5 +197,7 @@ Files are named using `--id`, e.g. `Scores_P001.csv`, `Transcript_P001.jsonl`.
 | 10–14 | Moderate Depression |
 | 15–19 | Moderately Severe Depression |
 | 20–24 | Severe Depression |
+
+A higher total score reflects greater self-reported depressive symptom burden over the past two weeks. Note that this categorization is a screening heuristic, not a clinical diagnosis; it's intended to flag the likely severity of symptoms and guide follow-up, not to replace evaluation by a mental health professional.
 
 
