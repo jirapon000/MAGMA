@@ -80,7 +80,7 @@ Each item also gets a natural-language clinical explanation (LLM-generated) and 
 ### Usage
 MAGMA can be run two ways: as a terminal CLI interview, or as a local web demo.
 
-### Option 1: CLI (terminal interview)
+#### Option 1: CLI (terminal interview)
 
 ```bash
 python MAGMA.py --id P001 --loss fisher     # or: pmi | entropy
